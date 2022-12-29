@@ -1,0 +1,10 @@
+**/__pycache__
+**/venv
+**/node_modules
+
+**/.vscode
+**/.idea
+
+**.cache
+
+.DS_Store
