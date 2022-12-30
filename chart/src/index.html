@@ -1,31 +1,18 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>{{ title }}</title>
+    <title>Spotimy</title>
   </head>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <body>
     <!-- <div style="width: 500px;"><canvas id="dimensions"></canvas></div><br/> -->
-    <canvas id="mychart" width="800"></canvas>
-
-    <!-- <script type="module" src="dimensions.js"></script> -->
-    <script>
-      var mychart = document.getElementById("mychart").getContext("2d");
-
-      new Chart(
-        mychart,
-        {
-          type: "bar",
-          data: {
-            labels: {{ labels | safe }},
-            datasets: [
-              {
-                label: "Label",
-                data: {{ values | safe }}
-              }
-            ]
-          }
-        }
+    <div style="width: 800px;"><canvas id="mychart"></canvas></div><br/>
+    <script type="text/javascript" src="{{ url_for('static', filename='index.js')}}"></script>
+    <script type="text/javascript">
+      drawLoudnessEnergyBubble("{{ title }}",
+       {{ dataShort | safe }},
+       {{ dataMid | safe }},
+       {{ dataLong | safe }}
       );
     </script>
   </body>
