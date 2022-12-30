@@ -11,6 +11,7 @@ Create a virtual environment and install `requirements.txt`.
 ```bash
 $ python -m venv venv
 $ . venv/Scripts/activate.bat
+(venv)
 $ pip install -r requirements.txt
 ```
 
