@@ -1,0 +1,25 @@
+.container {
+    width: 50%;
+    display: inline-block;
+}
+
+.outbox {
+    text-align: center;
+}
+
+h1 {
+    font-size: 20px;;
+    font-family: Helvetica;
+    color: rgb(55, 55, 55);
+    text-align: center;
+}
+
+p {
+    font-family: Helvetica;
+    color: rgb(55, 55, 55);
+    text-align: center;
+}
+
+html {
+    background-color: rgb(240, 240, 240);
+}

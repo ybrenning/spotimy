@@ -1,5 +1,5 @@
 function drawLoudnessEnergyBubble(title, dataShort, dataMid, dataLong) {
-    var ctx = document.getElementById("mychart").getContext("2d");
+    var ctx = document.getElementById("myChart").getContext("2d");
 
     new Chart(
       ctx,
@@ -40,6 +40,48 @@ function drawLoudnessEnergyBubble(title, dataShort, dataMid, dataLong) {
                             ];
                         }
                     }
+                }
+            }
+        }
+      }
+    );
+}
+
+function drawTopGenresBar(
+    title, 
+    labels, 
+    dataShort,
+    dataMid,
+    dataLong
+    ) {
+    var ctx = document.getElementById("myChart2").getContext("2d");
+
+    new Chart(
+      ctx,
+      {
+        type: "bar",
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: "Past 4 weeks",
+                    data: dataShort
+                },
+                {
+                    label: "Past 6 months",
+                    data: dataMid
+                },
+                {
+                    label: "All time",
+                    data: dataLong
+                },
+            ]
+        },
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: title
                 }
             }
         }
