@@ -19,7 +19,7 @@
   <body>
     <div class="outbox">
       <div class="container">
-        <canvas id="myChart"></canvas>
+        <canvas id="loudnessEnergyBubble"></canvas>
       </div>
     </div>
     <br/>
@@ -36,7 +36,7 @@
 
     <div class="outbox">
       <div class="container">
-        <canvas id="myChart2"></canvas>
+        <canvas id="topGenresBar"></canvas>
       </div>
     </div>
     <br/>
@@ -49,6 +49,23 @@
         {{ genreCountsDataShort | safe }},
         {{ genreCountsDataMid | safe }},
         {{ genreCountsDataLong | safe }}
+      );
+    </script>
+
+    <div class="outbox">
+      <div class="container">
+        <canvas id="rankPopularityScatter"></canvas>
+      </div>
+    </div>
+    <br/>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='index.js')}}"></script>
+    <script type="text/javascript">
+      drawRankPopularityScatter(
+        "{{ rankPopularityTitle }}",
+        {{ rankPopularityDataShort | safe }},
+        {{ rankPopularityDataMid | safe }},
+        {{ rankPopularityDataLong | safe }},
       );
     </script>
 

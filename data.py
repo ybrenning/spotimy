@@ -5,9 +5,10 @@ __email__ = "yannickbrenning2@gmail.com"
 import math
 import os
 from collections import defaultdict
-from dotenv import load_dotenv
 from typing import Any
+
 import spotipy
+from dotenv import load_dotenv
 from spotipy.oauth2 import SpotifyOAuth
 
 load_dotenv()
@@ -42,7 +43,7 @@ def get_top_tracks() -> tuple[Any, Any, Any]:
         top_tracks_long := sp.current_user_top_tracks(limit=50, time_range="long_term")
     ) is not None
 
-    return (top_tracks_short, top_tracks_mid, top_tracks_long)
+    return top_tracks_short, top_tracks_mid, top_tracks_long
 
 
 def get_audio_features(tracks: tuple[Any, Any, Any]) -> tuple[Any, Any, Any]:
@@ -63,7 +64,7 @@ def get_audio_features(tracks: tuple[Any, Any, Any]) -> tuple[Any, Any, Any]:
         )
     ) is not None
 
-    return (feats_short, feats_mid, feats_long)
+    return feats_short, feats_mid, feats_long
 
 
 def get_loudness_energy_data(
@@ -99,7 +100,7 @@ def get_loudness_energy_data(
             }
         )
 
-    return (data_short, data_mid, data_long)
+    return data_short, data_mid, data_long
 
 
 def get_genre_counts(
@@ -137,7 +138,7 @@ def get_genre_counts(
             del genre_counts_long[k]
             genre_counts_long["other"] += 1
 
-    return (dict(genre_counts_short), dict(genre_counts_mid), dict(genre_counts_long))
+    return dict(genre_counts_short), dict(genre_counts_mid), dict(genre_counts_long)
 
 
 def get_top_artists() -> tuple[Any, Any, Any]:
@@ -158,10 +159,8 @@ def get_top_artists() -> tuple[Any, Any, Any]:
             limit=50, time_range="long_term"
         )
     ) is not None
-    
-    print(top_artists_short["items"])
 
-    return (top_artists_short, top_artists_mid, top_artists_long)
+    return top_artists_short, top_artists_mid, top_artists_long
 
 
 def get_genre_counts_data(
@@ -180,3 +179,26 @@ def get_genre_counts_data(
     assert [len(data) == len(genre_counts_labels) for data in genre_counts_data]
 
     return genre_counts_data
+
+
+def get_rank_popularity_data(
+    top_artists: tuple[Any, Any, Any]
+) -> tuple[list[dict[str, int]], list[dict[str, int]], list[dict[str, int]]]:
+
+    rank_popularity_data_short = []
+    for index, artist in enumerate(top_artists[0]["items"]):
+        rank_popularity_data_short.append({"x": index + 1, "y": artist["popularity"]})
+
+    rank_popularity_data_mid = []
+    for index, artist in enumerate(top_artists[1]["items"]):
+        rank_popularity_data_mid.append({"x": index + 1, "y": artist["popularity"]})
+
+    rank_popularity_data_long = []
+    for index, artist in enumerate(top_artists[2]["items"]):
+        rank_popularity_data_long.append({"x": index + 1, "y": artist["popularity"]})
+
+    return (
+        rank_popularity_data_short,
+        rank_popularity_data_mid,
+        rank_popularity_data_long,
+    )

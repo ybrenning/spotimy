@@ -1,5 +1,5 @@
 function drawLoudnessEnergyBubble(title, dataShort, dataMid, dataLong) {
-    var ctx = document.getElementById("myChart").getContext("2d");
+    var ctx = document.getElementById("loudnessEnergyBubble").getContext("2d");
 
     new Chart(
       ctx,
@@ -54,7 +54,7 @@ function drawTopGenresBar(
     dataMid,
     dataLong
     ) {
-    var ctx = document.getElementById("myChart2").getContext("2d");
+    var ctx = document.getElementById("topGenresBar").getContext("2d");
 
     new Chart(
       ctx,
@@ -96,6 +96,54 @@ function drawTopGenresBar(
                 title: {
                     display: true,
                     text: title
+                }
+            }
+        }
+      }
+    );
+}
+
+function drawRankPopularityScatter(title, dataShort, dataMid, dataLong) {
+    var ctx = document.getElementById("rankPopularityScatter").getContext("2d");
+
+    new Chart(
+      ctx,
+      {
+        type: "scatter",
+        data: {
+            animation: {
+                duration: 10
+            },
+            datasets: [
+                {
+                    label: "Past 4 weeks",
+                    data: dataShort
+                },
+                {
+                    label: "Past 6 months",
+                    data: dataMid
+                },
+                {
+                    label: "All time",
+                    data: dataLong
+                }
+            ]
+        },
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: title
+                },
+                tooltip: {
+                    callbacks: {
+                        label: (context) => {
+                            return [
+                                `rank: ${context.raw.x}`, 
+                                `popularity: ${context.raw.y}`, 
+                            ];
+                        }
+                    }
                 }
             }
         }
