@@ -78,6 +78,20 @@ function drawTopGenresBar(
             ]
         },
         options: {
+            animation: {
+                onComplete: () => {
+                    delayed = true;
+                },
+                delay: (context) => {
+                    let delay = 0;
+                    if (context.type === "data" && context.mode === "default") {
+                        delay = context.dataIndex * 300;
+                    }
+
+                    return delay;
+                }
+            },
+            responsive: true,
             plugins: {
                 title: {
                     display: true,
