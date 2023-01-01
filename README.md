@@ -15,9 +15,16 @@ $ . venv/Scripts/activate.bat
 $ pip install -r requirements.txt
 ```
 
+Now install Chart.js:
+
+```bash
+$ npm install chart.js
+```
+
 ### Run
 
 Start the server locally:
+
 ```bash
 $ python spotimy.py
 ```
