@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Spotimy</title>
 
-    <link rel="stylesheet" href="static/styles.css">
+    <link rel="stylesheet" href="../static/css/styles.css">
   </head>
 
   <br/>
@@ -24,7 +24,7 @@
     </div>
     <br/>
 
-    <script type="text/javascript" src="{{ url_for('static', filename='index.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/index.js')}}"></script>
     <script type="text/javascript">
       drawLoudnessEnergyBubble(
         "{{ loudnessTitle }}",
@@ -41,7 +41,7 @@
     </div>
     <br/>
 
-    <script type="text/javascript" src="{{ url_for('static', filename='index.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/index.js')}}"></script>
     <script type="text/javascript">
       drawTopGenresBar(
         "{{ genreCountsTitle }}",
@@ -59,7 +59,7 @@
     </div>
     <br/>
 
-    <script type="text/javascript" src="{{ url_for('static', filename='index.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/index.js')}}"></script>
     <script type="text/javascript">
       drawRankPopularityScatter(
         "{{ rankPopularityTitle }}",

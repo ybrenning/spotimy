@@ -1,4 +1,5 @@
 Flask==2.2.2
+Flask-Session==0.4.0
 gunicorn==20.1.0
 python-dotenv==0.21.0
 spotipy==2.22.0

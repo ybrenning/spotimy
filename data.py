@@ -3,32 +3,11 @@ __email__ = "yannickbrenning2@gmail.com"
 
 
 import math
-import os
 from collections import defaultdict
 from typing import Any
 
-import spotipy
-from dotenv import load_dotenv
-from spotipy.oauth2 import SpotifyOAuth
 
-load_dotenv()
-
-sp = spotipy.Spotify(
-    auth_manager=SpotifyOAuth(
-        client_id=os.getenv("CLIENT_ID"),
-        client_secret=os.getenv("CLIENT_SECRET"),
-        redirect_uri="http://localhost:8888/callback",
-        scope=[
-            "user-top-read",
-            "user-read-recently-played",
-            "user-library-read",
-            "playlist-read-private",
-        ],
-    )
-)
-
-
-def get_top_tracks() -> tuple[Any, Any, Any]:
+def get_top_tracks(sp) -> tuple[Any, Any, Any]:
     assert (
         top_tracks_short := sp.current_user_top_tracks(
             limit=50, time_range="short_term"
@@ -46,7 +25,7 @@ def get_top_tracks() -> tuple[Any, Any, Any]:
     return top_tracks_short, top_tracks_mid, top_tracks_long
 
 
-def get_audio_features(tracks: tuple[Any, Any, Any]) -> tuple[Any, Any, Any]:
+def get_audio_features(sp, tracks: tuple[Any, Any, Any]) -> tuple[Any, Any, Any]:
     top_tracks_short, top_tracks_mid, top_tracks_long = tracks
     assert (
         feats_short := sp.audio_features(
@@ -141,7 +120,7 @@ def get_genre_counts(
     return dict(genre_counts_short), dict(genre_counts_mid), dict(genre_counts_long)
 
 
-def get_top_artists() -> tuple[Any, Any, Any]:
+def get_top_artists(sp) -> tuple[Any, Any, Any]:
     assert (
         top_artists_short := sp.current_user_top_artists(
             limit=50, time_range="short_term"

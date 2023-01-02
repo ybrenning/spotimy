@@ -1,6 +1,7 @@
 **/__pycache__
 **/venv
 **/node_modules
+**/.flask_session
 
 **/.vscode
 **/.idea
