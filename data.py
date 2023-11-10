@@ -1,13 +1,33 @@
 __author__ = "Yannick Brenning"
-__email__ = "yannickbrenning2@gmail.com"
 
 
 import math
+import os
 from collections import defaultdict
 from typing import Any
 
+import spotipy
+from dotenv import load_dotenv
+from spotipy.oauth2 import SpotifyOAuth
 
-def get_top_tracks(sp) -> tuple[Any, Any, Any]:
+load_dotenv()
+
+sp = spotipy.Spotify(
+    auth_manager=SpotifyOAuth(
+        client_id=os.getenv("SPOTIMY_CLIENT_ID"),
+        client_secret=os.getenv("SPOTIMY_CLIENT_SECRET"),
+        redirect_uri="http://127.0.0.1:8080",
+        scope=[
+            "user-top-read",
+            "user-read-recently-played",
+            "user-library-read",
+            "playlist-read-private",
+        ],
+    )
+)
+
+
+def get_top_tracks() -> tuple[Any, Any, Any]:
     assert (
         top_tracks_short := sp.current_user_top_tracks(
             limit=50, time_range="short_term"
@@ -15,17 +35,21 @@ def get_top_tracks(sp) -> tuple[Any, Any, Any]:
     ) is not None
 
     assert (
-        top_tracks_mid := sp.current_user_top_tracks(limit=50, time_range="medium_term")
+        top_tracks_mid := sp.current_user_top_tracks(
+            limit=50, time_range="medium_term"
+        )
     ) is not None
 
     assert (
-        top_tracks_long := sp.current_user_top_tracks(limit=50, time_range="long_term")
+        top_tracks_long := sp.current_user_top_tracks(
+            limit=50, time_range="long_term"
+        )
     ) is not None
 
     return top_tracks_short, top_tracks_mid, top_tracks_long
 
 
-def get_audio_features(sp, tracks: tuple[Any, Any, Any]) -> tuple[Any, Any, Any]:
+def get_audio_features(tracks: tuple[Any, Any, Any]) -> tuple[Any, Any, Any]:
     top_tracks_short, top_tracks_mid, top_tracks_long = tracks
     assert (
         feats_short := sp.audio_features(
@@ -34,7 +58,9 @@ def get_audio_features(sp, tracks: tuple[Any, Any, Any]) -> tuple[Any, Any, Any]
     ) is not None
 
     assert (
-        feats_mid := sp.audio_features([item["id"] for item in top_tracks_mid["items"]])
+        feats_mid := sp.audio_features(
+            [item["id"] for item in top_tracks_mid["items"]]
+        )
     ) is not None
 
     assert (
@@ -117,10 +143,14 @@ def get_genre_counts(
             del genre_counts_long[k]
             genre_counts_long["other"] += 1
 
-    return dict(genre_counts_short), dict(genre_counts_mid), dict(genre_counts_long)
+    return (
+        dict(genre_counts_short),
+        dict(genre_counts_mid),
+        dict(genre_counts_long)
+    )
 
 
-def get_top_artists(sp) -> tuple[Any, Any, Any]:
+def get_top_artists() -> tuple[Any, Any, Any]:
     assert (
         top_artists_short := sp.current_user_top_artists(
             limit=50, time_range="short_term"
@@ -155,7 +185,9 @@ def get_genre_counts_data(
                 if label == k:
                     genre_counts_data[index].append(v)
 
-    assert [len(data) == len(genre_counts_labels) for data in genre_counts_data]
+    assert [
+        len(data) == len(genre_counts_labels) for data in genre_counts_data
+    ]
 
     return genre_counts_data
 
@@ -166,15 +198,21 @@ def get_rank_popularity_data(
 
     rank_popularity_data_short = []
     for index, artist in enumerate(top_artists[0]["items"]):
-        rank_popularity_data_short.append({"x": index + 1, "y": artist["popularity"]})
+        rank_popularity_data_short.append(
+            {"x": index + 1, "y": artist["popularity"]}
+        )
 
     rank_popularity_data_mid = []
     for index, artist in enumerate(top_artists[1]["items"]):
-        rank_popularity_data_mid.append({"x": index + 1, "y": artist["popularity"]})
+        rank_popularity_data_mid.append(
+            {"x": index + 1, "y": artist["popularity"]}
+        )
 
     rank_popularity_data_long = []
     for index, artist in enumerate(top_artists[2]["items"]):
-        rank_popularity_data_long.append({"x": index + 1, "y": artist["popularity"]})
+        rank_popularity_data_long.append(
+            {"x": index + 1, "y": artist["popularity"]}
+        )
 
     return (
         rank_popularity_data_short,
